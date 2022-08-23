@@ -15,12 +15,12 @@ const Statistics = ({good, bad, neutral}) => {
   if (all > 0) {
   return (
     <>
-      good {good}<br></br>
-      neutral {neutral}<br></br>
-      bad {bad}<br></br>
-      all {all}<br></br>
-      average {average}<br></br>
-      positive {positive} %<br></br>
+      <StatisticsLine text="good" value={good}/>
+      <StatisticsLine text="neutral" value={neutral}/>
+      <StatisticsLine text="bad" value={bad}/>
+      <StatisticsLine text="all" value={all}/>
+      <StatisticsLine text="average" value={average}/>
+      <StatisticsLine text="positive" value={positive} percent="%"/>
     </>
   )
   }
@@ -30,6 +30,14 @@ const Statistics = ({good, bad, neutral}) => {
       </>
     )
     }
+}
+
+const StatisticsLine = ({text, value, percent}) => {
+  return (
+    <>
+      {text} {value}{percent}<br></br>
+    </>
+  )
 }
 
 const App = () => {
