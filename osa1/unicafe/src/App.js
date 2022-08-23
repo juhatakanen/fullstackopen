@@ -14,14 +14,16 @@ const Statistics = ({good, bad, neutral}) => {
   let positive = ((good / all) * 100) || 0
   if (all > 0) {
   return (
-    <>
+    <table>
+      <tbody>
       <StatisticsLine text="good" value={good}/>
       <StatisticsLine text="neutral" value={neutral}/>
       <StatisticsLine text="bad" value={bad}/>
       <StatisticsLine text="all" value={all}/>
       <StatisticsLine text="average" value={average}/>
       <StatisticsLine text="positive" value={positive} percent="%"/>
-    </>
+      </tbody>
+    </table>
   )
   }
   else {
@@ -34,9 +36,10 @@ const Statistics = ({good, bad, neutral}) => {
 
 const StatisticsLine = ({text, value, percent}) => {
   return (
-    <>
-      {text} {value}{percent}<br></br>
-    </>
+    <tr>
+      <td>{text}</td>
+      <td>{value}{percent}</td>
+    </tr>
   )
 }
 
