@@ -22,11 +22,22 @@ const Part = ({part}) => {
     )
 }
 
+const Total = ({course}) => {
+    return (
+        <>
+        <p>total of {course.parts.reduce((total, part) => {
+            return total + part.exercises
+        }, 0)}</p>
+        </>
+    )
+}
+
 const Course = ({ course }) => {
     return (
         <>
         <Header course={course} />
         <Content course={course} />
+        <Total course={course} />
         </>
     )
 }
