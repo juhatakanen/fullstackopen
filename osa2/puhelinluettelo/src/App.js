@@ -48,8 +48,15 @@ const App = () => {
           setNewName('')
           setNewNumber('')
       })
-  
     }
+  }
+
+  const deletePerson = (id) => {
+    personService
+      .deletePerson(id)
+    
+    setPersons(persons.filter(person => person.id !== id))
+    
   }
 
   const personsToShow = filter === ''
@@ -63,7 +70,7 @@ const App = () => {
       <h2>add a new</h2>
       <Form newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} addPerson={addPerson} />
       <h2>Numbers</h2>
-      <Personlist personsToShow={personsToShow}/>
+      <Personlist personsToShow={personsToShow} deletePerson={deletePerson}/>
     </div>
   )
 
