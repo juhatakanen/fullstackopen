@@ -1,7 +1,11 @@
-const Country = ({country}) => {
+const Country = ({country, setFilter}) => {
+    const handleClick = (country) => {
+        setFilter(country)
+    }
+    
     return (
         <p>
-            {country.name.common}
+            {country.name.common} <button onClick={() => handleClick(country.name.common)}>show</button>
         </p>
     )
 }

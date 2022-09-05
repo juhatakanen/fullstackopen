@@ -1,7 +1,7 @@
 import Country from './Country'
 import CountryMoreInfo from './CountryMoreInfo'
 
-const Countrylist = ({countriesToShow, filter}) => {
+const Countrylist = ({countriesToShow, filter, setFilter}) => {
     if (countriesToShow.length > 10 && filter.length >= 1) {
         return (
             <>
@@ -13,7 +13,7 @@ const Countrylist = ({countriesToShow, filter}) => {
         return (
             <>
             {countriesToShow.map(country => 
-                <Country key={country.name.common} country={country} />)}
+                <Country key={country.name.common} country={country} setFilter={setFilter} />)}
             </>
         )
     } else if (countriesToShow.length === 1) {
