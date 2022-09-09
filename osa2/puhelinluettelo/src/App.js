@@ -3,12 +3,16 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Personlist from './components/Personlist'
+import Message from './components/Message'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState('')
+  const [classType, setClassType] = useState('')
 
   useEffect(() => {
     personService
@@ -17,7 +21,6 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
-
 
   const handleNameChange = (e) => {
     setNewName(e.target.value)
@@ -29,13 +32,21 @@ const App = () => {
     setFilter(e.target.value)
   }
 
+  const messageTimeout = (classType, message, person) => {
+    setClassType(classType)
+    setMessage(`${message} ${person}`)
+        setTimeout(() => {
+          setClassType('')
+          setMessage('')
+        }, 5000)
+      }
+
   const addPerson = (e) => {
     e.preventDefault()
     const personToUpdate = persons.find(person => person.name === newName)
     if (personToUpdate) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
           
-
         const newPersonToUpdate = {...personToUpdate, number: newNumber}
           personService
             .put(newPersonToUpdate)
@@ -45,26 +56,33 @@ const App = () => {
                         return response.data;
                       }
                       return person;
-                    })
-                  )
-                }
-                )
-
+                    }))
+                    messageTimeout('success', 'Modified', newName)
+                  })
+                  .catch(error => {
+                    messageTimeout('error','', newName)
+                    personService
+                      .getAll()
+                      .then(response => {
+                        setPersons(response.data)
+                      })
+            })
+          }
+        } else {
+          const personObject = {
+            name: newName,
+            number: newNumber
+          }
+          
+          personService
+          .create(personObject)
+          .then(response => {
+            setPersons(persons.concat(response.data))
+          })
+          messageTimeout('success', 'Added', newName)
       }
-    } else {
-      const personObject = {
-        name: newName,
-        number: newNumber
-      }
-      
-      personService
-        .create(personObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-        })
-      }
-      setNewName('')
-      setNewNumber('')
+    setNewName('')
+    setNewNumber('')
   }  
 
   const deletePerson = (personToDelete) => {
@@ -74,6 +92,7 @@ const App = () => {
       .deletePerson(personToDelete.id)
       
       setPersons(persons.filter(person => person.id !== personToDelete.id))
+      messageTimeout('success', 'Deleted', personToDelete.name)
     } 
   }
 
@@ -84,6 +103,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Message message={message} classType={classType} />
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
       <Form newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} addPerson={addPerson} />
@@ -92,6 +112,5 @@ const App = () => {
     </div>
   )
 }
-
 
 export default App
