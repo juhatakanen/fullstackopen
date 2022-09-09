@@ -4,7 +4,7 @@ const Message = ({ classType, message }) => {
     } else if (classType === 'error') {
         return (
             <div className="error">
-                <p>Information of {message} has already been removed from the server</p>
+                <p>{message}</p>
             </div>
         )
     }

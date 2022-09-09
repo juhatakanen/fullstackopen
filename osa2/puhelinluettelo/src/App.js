@@ -60,7 +60,12 @@ const App = () => {
                     messageTimeout('success', 'Modified', newName)
                   })
                   .catch(error => {
-                    messageTimeout('error','', newName)
+                    setClassType('error')
+                    setMessage(`Information of ${newName} has already been removed from server`)
+                        setTimeout(() => {
+                          setClassType('')
+                          setMessage('')
+                        }, 5000)
                     personService
                       .getAll()
                       .then(response => {
