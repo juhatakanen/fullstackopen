@@ -43,6 +43,24 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
+    if (newName === '') {
+      setClassType('error')
+      setMessage(`Name required`)
+                        setTimeout(() => {
+                          setClassType('')
+                          setMessage('')
+                        }, 5000)
+      return
+    }
+    if (newNumber === '') {
+      setClassType('error')
+      setMessage(`Number required`)
+                        setTimeout(() => {
+                          setClassType('')
+                          setMessage('')
+                        }, 5000)
+      return
+    }
     const personToUpdate = persons.find(person => person.name === newName)
     if (personToUpdate) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
@@ -84,6 +102,8 @@ const App = () => {
           .then(response => {
             setPersons(persons.concat(response.data))
           })
+
+
           messageTimeout('success', 'Added', newName)
       }
     setNewName('')
